@@ -1,0 +1,59 @@
+{
+  "$type": "Sungero.Metadata.SolutionMetadata, Sungero.Metadata",
+  "NameGuid": "6bd6df45-f049-438d-86f7-205aeb64e74c",
+  "Name": "IntegrationRulesSolution",
+  "AsyncHandlers": [],
+  "ClientAssemblyName": "DirRX.IntegrationRulesSolution.Client",
+  "ClientBaseAssemblyName": "DirRX.IntegrationRulesSolution.ClientBase",
+  "ClientBaseNamespace": "DirRX.IntegrationRulesSolution.ClientBase",
+  "ClientNamespace": "DirRX.IntegrationRulesSolution.Client",
+  "Code": "Integra",
+  "CompanyCode": "DirRX",
+  "Cover": {
+    "NameGuid": "416c012e-6664-47d7-af91-a81dcf001c68",
+    "Actions": [],
+    "Background": null,
+    "Footer": {
+      "NameGuid": "ad7d4633-fd00-4bbb-b948-7f01ea6a58f7",
+      "BackgroundPosition": "Stretch"
+    },
+    "Groups": [],
+    "Header": {
+      "NameGuid": "9e7eb6df-ee56-45c3-89d4-2001cc0d19a7",
+      "BackgroundPosition": "Stretch"
+    },
+    "RemoteControls": [],
+    "Tabs": []
+  },
+  "DesktopViews": [],
+  "Importance": "Medium",
+  "InterfaceAssemblyName": "Sungero.Domain.Interfaces",
+  "InterfaceNamespace": "DirRX.IntegrationRulesSolution",
+  "IsolatedAssemblyName": "DirRX.IntegrationRulesSolution.Isolated",
+  "IsolatedNamespace": "DirRX.IntegrationRulesSolution.Isolated",
+  "OrderedSpecialFolders": [],
+  "PublicStructures": [],
+  "ResourceInterfaceAssemblyName": "Sungero.Domain.Interfaces",
+  "ResourceInterfaceNamespace": "DirRX.IntegrationRulesSolution",
+  "ServerAssemblyName": "DirRX.IntegrationRulesSolution.Server",
+  "ServerNamespace": "DirRX.IntegrationRulesSolution.Server",
+  "SharedAssemblyName": "DirRX.IntegrationRulesSolution.Shared",
+  "SharedNamespace": "DirRX.IntegrationRulesSolution.Shared",
+  "SpecialFolders": [],
+  "Version": "1.1.25241.0",
+  "Widgets": [],
+  "Versions": [
+    {
+      "Type": "SolutionMetadata",
+      "Number": 11
+    },
+    {
+      "Type": "ModuleMetadata",
+      "Number": 11
+    },
+    {
+      "Type": "DomainApi",
+      "Number": 3
+    }
+  ]
+}

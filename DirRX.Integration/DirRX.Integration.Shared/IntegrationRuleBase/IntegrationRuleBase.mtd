@@ -181,9 +181,6 @@
     }
   ],
   "FormViewUuid": "59293c1d-8f73-4aaa-a2a6-530067528784",
-  "HandledEvents": [
-    "RefreshClient"
-  ],
   "HideFromCreationArea": true,
   "HideFromNavigationEditorCreationArea": true,
   "IconResourcesKeys": [],
@@ -285,7 +282,7 @@
       "ReturnType": "Sungero.Domain.Shared.IExternalLink"
     },
     {
-      "Name": "SendSoapRequest",
+      "Name": "SendDefaultRequest",
       "Parameters": [
         {
           "Name": "urlEndpoint",
@@ -310,11 +307,6 @@
         {
           "Name": "parameters",
           "ParameterType": "System.Collections.Generic.Dictionary<global::System.String, global::System.String>"
-        },
-        {
-          "Name": "useSOAP12",
-          "ParameterType": "global::System.Boolean",
-          "ParameterTypeFullName": "System.Boolean"
         }
       ],
       "ReturnType": "global::System.String",

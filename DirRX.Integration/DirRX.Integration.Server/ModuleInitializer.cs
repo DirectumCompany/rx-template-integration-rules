@@ -12,16 +12,7 @@ namespace DirRX.Integration.Server
 
     public override void Initializing(Sungero.Domain.ModuleInitializingEventArgs e)
     {
-      GrantRights();
-    }
-    
-    /// <summary>
-    /// Выдача прав на объекты модуля.
-    /// </summary>
-    public static void GrantRights()
-    {
       GrantRightsOnDatabooks();
-      CreateDefaultIntegrationSettings();
     }
     
     /// <summary>

@@ -119,14 +119,6 @@
           "$type": "Sungero.Metadata.ControlGroupMetadata, Sungero.Metadata",
           "NameGuid": "0445fcfe-f59b-46b2-8ff4-aefe9efe44cd",
           "Name": "ConnectionSettings",
-          "ColumnDefinitions": [
-            {
-              "Percentage": 50.0
-            },
-            {
-              "Percentage": 50.0
-            }
-          ],
           "ColumnNumber": 0,
           "ColumnSpan": 1,
           "GroupType": "WithTitleNoBorder",
@@ -196,9 +188,6 @@
     }
   ],
   "FormViewUuid": "c2d1a06c-f3dc-4e6b-b633-881155c48153",
-  "HandledEvents": [
-    "RefreshClient"
-  ],
   "HideFromCreationArea": true,
   "HideFromNavigationEditorCreationArea": true,
   "IconResourcesKeys": [],
@@ -217,8 +206,8 @@
       "Name": "Name",
       "Code": "Name",
       "IsDisplayValue": true,
-      "IsEnabled": false,
       "IsQuickSearchAllowed": true,
+      "IsRequired": true,
       "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.StringEditorToStringBinder",
       "PreviousPropertyGuid": "1dcedc29-5140-4770-ac92-eabc212326a1"
     },

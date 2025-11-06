@@ -6,7 +6,7 @@ namespace DirRX.Integration.Constants
   public static class Module
   {
     /// <summary>
-    /// Констаны для формирования лога.
+    /// Константы для формирования лога.
     /// </summary>
     public static class Logging
     {

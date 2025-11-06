@@ -61,11 +61,17 @@
   <data name="Property_Name" xml:space="preserve">
     <value>Имя</value>
   </data>
+  <data name="Property_ConnectorType" xml:space="preserve">
+    <value>Тип коннектора</value>
+  </data>
   <data name="Enum_ConnectorType_DefaultConnector" xml:space="preserve">
     <value>Коннектор по умолчанию</value>
   </data>
   <data name="Property_Responsible" xml:space="preserve">
     <value>Ответственный</value>
+  </data>
+  <data name="Property_Rules" xml:space="preserve">
+    <value>Правила интеграции</value>
   </data>
   <data name="Property_Login" xml:space="preserve">
     <value>Имя пользователя</value>
@@ -77,10 +83,7 @@
     <value>Наши организации</value>
   </data>
   <data name="Property_Timeout" xml:space="preserve">
-    <value>Таймаут поключения</value>
-  </data>
-  <data name="Property_ConnectorType" xml:space="preserve">
-    <value>Тип коннектора</value>
+    <value>Таймаут подключения</value>
   </data>
   <data name="ControlGroup_0445fcfef59b46b28ff4aefe9efe44cd" xml:space="preserve">
     <value>Настройки подключения</value>
@@ -88,8 +91,8 @@
   <data name="ControlGroup_e6da17f7213346958a240f1fc2b6d33b" xml:space="preserve">
     <value>Правила интеграции</value>
   </data>
-  <data name="Ribbon_Integration_fa4ca4e7bd9a42a783c9d15c254bbe21" xml:space="preserve">
-    <value>Интеграция с внешней системой</value>
+  <data name="Action_SetPassword" xml:space="preserve">
+    <value>Установить пароль учетной записи внешней системы</value>
   </data>
   <data name="Action_SetPasswordDescription" xml:space="preserve">
     <value>Установить пароль учетной записи внешней системы</value>
@@ -97,11 +100,8 @@
   <data name="Action_SetPasswordHint" xml:space="preserve">
     <value>Установить пароль учетной записи внешней системы</value>
   </data>
-  <data name="Action_SetPassword" xml:space="preserve">
-    <value>Установить пароль учетной записи внешней системы</value>
-  </data>
-  <data name="Property_Rules" xml:space="preserve">
-    <value>Правила интеграции</value>
+  <data name="Ribbon_Integration_fa4ca4e7bd9a42a783c9d15c254bbe21" xml:space="preserve">
+    <value>Интеграция с внешней системой</value>
   </data>
   <data name="DisplayName" xml:space="preserve">
     <value>Настройка интеграции</value>

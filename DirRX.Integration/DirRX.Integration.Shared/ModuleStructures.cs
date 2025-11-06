@@ -7,7 +7,7 @@ using Sungero.CoreEntities;
 namespace DirRX.Integration.Structures.Module
 {
   /// <summary>
-  /// Стурктурированние хранения результатов выполнения правил интеграции.
+  /// Структурированние хранения результатов выполнения правил интеграции.
   /// </summary>
   partial class LogStruct
   {

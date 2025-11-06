@@ -51,7 +51,8 @@ namespace DirRX.Integration.Server
     /// <summary>
     /// Процедура обновления головного подразделения для подразделений.
     /// </summary>
-    /// <param name="Departments">Структурированный набор данных по импортируемым подразделениям.</param>
+    /// <param name="departments">Структурированный набор данных по импортируемым подразделениям.</param>
+    /// <param name="logs">Список структурированных логов.</param>
     [Remote]
     public virtual void UpdateDepartamentsHeadOffice(List<DirRX.Integration.Structures.ImportRuleDepartment.Department> departments, List<DirRX.Integration.Structures.Module.LogStruct> logs)
     {
@@ -94,7 +95,7 @@ namespace DirRX.Integration.Server
     /// Процедура импорта Подразделений.
     /// </summary>
     /// <param name="items">Структурированный набор данных по импортируемым Подразделений.</param>
-    /// <returns>Список структурированных логов.</returns>
+    /// <param name="logs">Список структурированных логов.</param>
     [Remote]
     public virtual void ImportDepartments(List<DirRX.Integration.Structures.ImportRuleDepartment.Department> items, List<DirRX.Integration.Structures.Module.LogStruct> logs)
     {
@@ -121,7 +122,7 @@ namespace DirRX.Integration.Server
             department.BusinessUnit = businessUnit;
         }
         
-        var employeeExternalLink = Sungero.Domain.ModuleFunctions.GetAllExternalLinks(l => l.EntityTypeGuid == DirRX.Integration.PublicConstants.ImportRuleEmployee.EmpliyeeDatabookGuid &&
+        var employeeExternalLink = Sungero.Domain.ModuleFunctions.GetAllExternalLinks(l => l.EntityTypeGuid == DirRX.Integration.PublicConstants.ImportRuleEmployee.EmployeeDatabookGuid &&
                                                                                       l.ExternalEntityId == item.ManagerExternalId && l.IsDeleted == false).FirstOrDefault();
         var employeeId = employeeExternalLink != null ? employeeExternalLink.EntityId : 0;
         var manager = Sungero.Company.Employees.GetAll().Where(x => x.Id == employeeId).FirstOrDefault();

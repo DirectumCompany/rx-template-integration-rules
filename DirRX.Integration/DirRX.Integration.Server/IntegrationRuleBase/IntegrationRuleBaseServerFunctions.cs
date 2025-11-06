@@ -100,12 +100,12 @@ namespace DirRX.Integration.Server
       if (parameters.Any())
       {
         if (integrationSettings.ConnectorType == DirRX.Integration.IntegrationSetting.ConnectorType.DefaultConnector)
-          response = this.ExecuteSoapConnector(integrationSettings, parameters, logs);
+          response = this.ExecuteDefaultConnector(integrationSettings, parameters, logs);
       }
       return response;
     }
     
-    #region Реализация SOAP-коннектора.
+    #region Реализация коннектора по умолчанию.
 
     /// <summary>
     /// Выполнить обращение к внешней системе с использованием SOAP Connector.
@@ -114,21 +114,21 @@ namespace DirRX.Integration.Server
     /// <param name="parameters">Словарь параметров.</param>
     /// <param name="logs">Структурированный лог.</param>
     /// <returns>Матрица с ответом от внешней системы.</returns>
-    public virtual List<System.Collections.Generic.Dictionary<string, string>> ExecuteSoapConnector(DirRX.Integration.IIntegrationSetting integrationSettings,
-                                                                                                    System.Collections.Generic.Dictionary<string, string> parameters,
-                                                                                                    List<DirRX.Integration.Structures.Module.LogStruct> logs)
+    public virtual List<System.Collections.Generic.Dictionary<string, string>> ExecuteDefaultConnector(DirRX.Integration.IIntegrationSetting integrationSettings,
+                                                                                                       System.Collections.Generic.Dictionary<string, string> parameters,
+                                                                                                       List<DirRX.Integration.Structures.Module.LogStruct> logs)
     {
       var result = new List<Dictionary<string, string>>();
       var response = string.Empty;
       
       try
       {
-        response = SendSoapRequest(_obj.Uri, integrationSettings.Login,
-                                   GetDecryptedData(integrationSettings.Password), _obj.ActionName, parameters, true);
+        response = SendDefaultRequest(_obj.Uri, integrationSettings.Login,
+                                      GetDecryptedData(integrationSettings.Password), _obj.ActionName, parameters);
       }
       catch (Exception ex)
       {
-        var errorMessage = string.Format("Ошибка при выполнении SOAP-коннектора. Подробности: {0}", ex.Message);
+        var errorMessage = string.Format("Ошибка при выполнении коннектора по умолчанию. Подробности: {0}", ex.Message);
         Logger.Error(errorMessage, ex);
         logs.Add(DirRX.Integration.Functions.Module.CreateLogItem(_obj.Name,
                                                                   DirRX.Integration.Constants.Module.Logging.MessageLevel.RequestLevel,
@@ -139,11 +139,11 @@ namespace DirRX.Integration.Server
       try
       {
         if (!string.IsNullOrEmpty(response))
-          result = ParseSoapResponse(response);
+          result = ParseDefaultResponse(response);
       }
       catch (Exception ex)
       {
-        var errorMessage = string.Format("Ошибка при разборе ответа от SOAP коннектора. Подробности: {0}.", ex.Message);
+        var errorMessage = string.Format("Ошибка при разборе ответа от коннектора по умолчанию. Подробности: {0}.", ex.Message);
         Logger.Error(errorMessage, ex);
         logs.Add(DirRX.Integration.Functions.Module.CreateLogItem(_obj.Name,
                                                                   DirRX.Integration.Constants.Module.Logging.MessageLevel.ResponseLevel,
@@ -160,16 +160,12 @@ namespace DirRX.Integration.Server
     /// </summary>
     /// <param name="action">Наименование действия.</param>
     /// <param name="parameters">Словарь параметров.</param>
-    /// <param name="useSOAP12">Определяет, по какому протоколу выполняется взаимодействие. Указать "true" для работы по протоколу SOAP v1.2, "false" для работы по протоколу SOAP v1.1 (по умолчанию).</param>
     /// <returns>SOAP конверт.</returns>
-    public static System.Xml.XmlDocument CreateSoapEnvelope(string action, System.Collections.Generic.Dictionary<string, string> parameters, bool useSOAP12)
+    public static System.Xml.XmlDocument CreateSoapEnvelope(string action, System.Collections.Generic.Dictionary<string, string> parameters)
     {
       var soapEnvelopeXml = new XmlDocument();
       soapEnvelopeXml.PreserveWhitespace = true;  // По умолчанию false и если передается пробел (например <IEdc> </IEdc>), то тэги раздедяются переносом строк.
-      var xmlStr = string.Empty;
-      if (useSOAP12)
-      {
-        xmlStr = @"<?xml version=""1.0"" encoding=""utf-8""?>
+      var xmlStr = @"<?xml version=""1.0"" encoding=""utf-8""?>
                     <soap12:Envelope xmlns:soap12=""http://www.w3.org/2003/05/soap-envelope""
                       xmlns:urn=""urn:sap-com:document:sap:soap:functions:mc-style""
                       xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
@@ -179,20 +175,7 @@ namespace DirRX.Integration.Server
                         <urn:{0}>{1}</urn:{0}>
                       </soap12:Body>
                     </soap12:Envelope>";
-      }
-      else
-      {
-        xmlStr = @"<?xml version=""1.0"" encoding=""utf-8""?>
-                    <soap:Envelope xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/""
-                        xmlns:urn=""urn:sap-com:document:sap:soap:functions:mc-style""
-                        xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
-                        xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-                        <soap:Header/>
-                        <soap:Body>
-                           <urn:{0}>{1}</urn:{0}>
-                        </soap:Body>
-                    </soap:Envelope>";
-      }
+      
       var filledParameters = parameters.Where(x => !string.IsNullOrEmpty(x.Value)).Select(x => string.Format("<{0}>{1}</{0}>", x.Key, x.Value)).ToArray();
       var emptyParameters = parameters.Where(x => string.IsNullOrEmpty(x.Value)).Select(x => string.Format("<{0}/>", x.Key)).ToArray();
       var allParams = filledParameters.Concat(emptyParameters);
@@ -216,40 +199,37 @@ namespace DirRX.Integration.Server
     /// </summary>
     /// <returns>Для всех случаев возвращаем "True".</returns>
     public static bool AcceptAllCertifications(object sender,
-                                                System.Security.Cryptography.X509Certificates.X509Certificate certification,
-                                                System.Security.Cryptography.X509Certificates.X509Chain chain,
-                                                System.Net.Security.SslPolicyErrors sslPolicyErrors)
+                                               System.Security.Cryptography.X509Certificates.X509Certificate certification,
+                                               System.Security.Cryptography.X509Certificates.X509Chain chain,
+                                               System.Net.Security.SslPolicyErrors sslPolicyErrors)
     {
       return true;
     }
 
     /// <summary>
-    /// Выполняет отправку SOAP на целевой адрес и возвращает ответ.
+    /// Выполняет отправку запроса на целевой адрес и возвращает ответ.
     /// </summary>
     /// <param name="urlEndpont">URL-адрес конечной точки.</param>
     /// <param name="action">Наименование действия.</param>
     /// <param name="parameters">Словарь параметров.</param>
-    /// <param name="useSOAP12">Определяет, по какому протоколу выполняется взаимодействие. Указать "true" для работы по протоколу SOAP v1.2, "false" для работы по протоколу SOAP v1.1 (по умолчанию).</param>
     /// <returns>Строка, которая содержит ответ от веб-сервиса.</returns>
     [Public]
-    public static string SendSoapRequest(string urlEndpoint,
-                                          string userName,
-                                          string userPassword,
-                                          string action,
-                                          System.Collections.Generic.Dictionary<string, string> parameters,
-                                          bool useSOAP12 = false)
+    public static string SendDefaultRequest(string urlEndpoint,
+                                            string userName,
+                                            string userPassword,
+                                            string action,
+                                            System.Collections.Generic.Dictionary<string, string> parameters)
     {
       IgnoreBadCertificates();
       ServicePointManager.Expect100Continue = true;
       ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
         | SecurityProtocolType.Tls11
-        | SecurityProtocolType.Tls12
-        | SecurityProtocolType.Ssl3;
+        | SecurityProtocolType.Tls12;
       
       XmlDocument soapEnvelopeXml;
       try
       {
-        soapEnvelopeXml = CreateSoapEnvelope(action, parameters, useSOAP12);
+        soapEnvelopeXml = CreateSoapEnvelope(action, parameters);
       }
       catch (Exception ex)
       {
@@ -261,8 +241,8 @@ namespace DirRX.Integration.Server
       HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(urlEndpoint);
 
       webRequest.Credentials = new NetworkCredential(userName, userPassword);
-      webRequest.ContentType = (useSOAP12) ? "application/soap+xml;charset=\"utf-8\"" : "text/xml;charset=\"utf-8\"";
-      webRequest.Accept = (useSOAP12) ? "application/soap+xml" : "text/xml";
+      webRequest.ContentType = "application/soap+xml;charset=\"utf-8\"";
+      webRequest.Accept = "application/soap+xml";
       webRequest.Method = "POST";
 
       // Insert SOAP envelope.
@@ -338,7 +318,7 @@ namespace DirRX.Integration.Server
     /// </summary>
     /// <param name="response">Строка, содержащая SOAP-ответ.</param>
     /// <returns>Ответ в виде списка массивов строк.</returns>
-    public virtual List<System.Collections.Generic.Dictionary<string, string>> ParseSoapResponse(string response)
+    public virtual List<System.Collections.Generic.Dictionary<string, string>> ParseDefaultResponse(string response)
     {
       var result = new List<Dictionary<string, string>>();
       var responseXml = XDocument.Parse(response);

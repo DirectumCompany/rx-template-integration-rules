@@ -44,7 +44,7 @@
   ],
   "PublicConstants": [
     {
-      "Name": "EmpliyeeDatabookGuid",
+      "Name": "EmployeeDatabookGuid",
       "ParentClasses": [
         "ImportRuleEmployee"
       ],

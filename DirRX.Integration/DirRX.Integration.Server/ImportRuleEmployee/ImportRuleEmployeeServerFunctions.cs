@@ -59,7 +59,7 @@ namespace DirRX.Integration.Server
     /// <returns>Персона</returns>
     public virtual Sungero.Parties.IPerson ImportPerson(DirRX.Integration.Structures.ImportRuleEmployee.Employee employee, List<DirRX.Integration.Structures.Module.LogStruct> logs)
     {
-      var employeeExternalLink = Sungero.Domain.ModuleFunctions.GetAllExternalLinks(l => l.EntityTypeGuid == DirRX.Integration.Constants.ImportRuleEmployee.EmpliyeeDatabookGuid &&
+      var employeeExternalLink = Sungero.Domain.ModuleFunctions.GetAllExternalLinks(l => l.EntityTypeGuid == DirRX.Integration.Constants.ImportRuleEmployee.EmployeeDatabookGuid &&
                                                                                     l.ExternalEntityId == employee.ExternalId && l.IsDeleted == false).FirstOrDefault();
       var employeeId = employeeExternalLink != null ? employeeExternalLink.EntityId : 0;
       var person = Sungero.Company.Employees.GetAll().Where(x => x.Id == employeeId).Select(x => x.Person).FirstOrDefault();
@@ -150,7 +150,7 @@ namespace DirRX.Integration.Server
     {
       foreach (var item in items)
       {
-        var employeeExternalLink = Sungero.Domain.ModuleFunctions.GetAllExternalLinks(l => l.EntityTypeGuid == DirRX.Integration.Constants.ImportRuleEmployee.EmpliyeeDatabookGuid &&
+        var employeeExternalLink = Sungero.Domain.ModuleFunctions.GetAllExternalLinks(l => l.EntityTypeGuid == DirRX.Integration.Constants.ImportRuleEmployee.EmployeeDatabookGuid &&
                                                                                       l.ExternalEntityId == item.ExternalId && l.IsDeleted == false).FirstOrDefault();
         var employeeId = employeeExternalLink != null ? employeeExternalLink.EntityId : 0;
         var employee = Sungero.Company.Employees.GetAll().Where(x => x.Id == employeeId).FirstOrDefault();
@@ -214,7 +214,7 @@ namespace DirRX.Integration.Server
           {
             employee.Save();
             if (isNew)
-              DirRX.Integration.PublicFunctions.IntegrationRuleBase.CreateExternalLink(employee, DirRX.Integration.Constants.ImportRuleEmployee.EmpliyeeDatabookGuid, item.ExternalId);
+              DirRX.Integration.PublicFunctions.IntegrationRuleBase.CreateExternalLink(employee, DirRX.Integration.Constants.ImportRuleEmployee.EmployeeDatabookGuid, item.ExternalId);
             Logger.Debug(string.Format("Обновление/создание карточки Сотрудников {0}.", employee.Name));
           }
         }

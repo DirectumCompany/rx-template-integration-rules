@@ -7,6 +7,6 @@ namespace DirRX.Integration.Constants
   {
     // Guid справочника "Сотрудники".
     [Public]
-    public static readonly Guid EmpliyeeDatabookGuid = Guid.Parse("b7905516-2be5-4931-961c-cb38d5677565");
+    public static readonly Guid EmployeeDatabookGuid = Guid.Parse("b7905516-2be5-4931-961c-cb38d5677565");
   }
 }

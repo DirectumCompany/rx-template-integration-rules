@@ -22,15 +22,4 @@ namespace DirRX.Integration
         e.AddError(DirRX.Integration.IntegrationSettings.Resources.ExecutionOrderShouldBeUniq);
     }
   }
-
-
-  partial class IntegrationSettingClientHandlers
-  {
-
-    public override void Refresh(Sungero.Presentation.FormRefreshEventArgs e)
-    {
-      Functions.IntegrationSetting.SetRequiredProperties(_obj);
-    }
-
-  }
 }

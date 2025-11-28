@@ -55,6 +55,7 @@ namespace DirRX.Integration.Server
     /// Создать external link для импортированных данных из внешней системы.
     /// </summary>
     /// <param name="entity">Сущность.</param>
+    /// <param name="entityTypeGuid">GUID типа сущности.</param>
     /// <param name="externalEntityId">Внешний ID экземпляра.</param>
     [Public]
     public static Sungero.Domain.Shared.IExternalLink CreateExternalLink(Sungero.Domain.Shared.IEntity entity, Guid entityTypeGuid, string externalEntityId)
@@ -210,6 +211,8 @@ namespace DirRX.Integration.Server
     /// Выполняет отправку запроса на целевой адрес и возвращает ответ.
     /// </summary>
     /// <param name="urlEndpont">URL-адрес конечной точки.</param>
+    /// <param name="userName">Имя пользователя.</param>
+    /// <param name="userPassword">Пароль.</param>
     /// <param name="action">Наименование действия.</param>
     /// <param name="parameters">Словарь параметров.</param>
     /// <returns>Строка, которая содержит ответ от веб-сервиса.</returns>

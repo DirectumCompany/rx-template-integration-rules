@@ -199,7 +199,6 @@
       "Name": "Name",
       "Code": "Name",
       "IsDisplayValue": true,
-      "IsEnabled": false,
       "IsQuickSearchAllowed": true,
       "IsRequired": true,
       "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.StringEditorToStringBinder",
@@ -210,7 +209,6 @@
       "NameGuid": "1b5ab6ae-fef7-4d1d-881d-3191318c09b5",
       "Name": "Note",
       "Code": "Note",
-      "IsEnabled": false,
       "Length": 1000,
       "ListDataBinderTypeName": "Sungero.Presentation.CommonDataBinders.StringEditorToStringBinder",
       "PreviousPropertyGuid": "160a38ba-a0f3-42a1-aafe-2aeaca8397fe"

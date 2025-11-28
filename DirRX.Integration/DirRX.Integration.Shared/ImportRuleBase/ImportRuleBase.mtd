@@ -31,17 +31,6 @@
   ],
   "Properties": [
     {
-      "$type": "Sungero.Metadata.StringPropertyMetadata, Sungero.Metadata",
-      "NameGuid": "160a38ba-a0f3-42a1-aafe-2aeaca8397fe",
-      "Name": "Name",
-      "IsAncestorMetadata": true,
-      "IsDisplayValue": true,
-      "IsEnabled": false,
-      "Overridden": [
-        "IsEnabled"
-      ]
-    },
-    {
       "$type": "Sungero.Metadata.CollectionPropertyMetadata, Sungero.Metadata",
       "NameGuid": "b786d1bd-f8c9-4856-89cd-5eec8f0951e6",
       "Name": "Parameters",

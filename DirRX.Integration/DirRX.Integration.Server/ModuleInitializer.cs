@@ -13,6 +13,7 @@ namespace DirRX.Integration.Server
     public override void Initializing(Sungero.Domain.ModuleInitializingEventArgs e)
     {
       GrantRightsOnDatabooks();
+      CreateDefaultIntegrationSettings();
     }
     
     /// <summary>

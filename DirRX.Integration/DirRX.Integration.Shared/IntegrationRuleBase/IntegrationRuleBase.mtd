@@ -4,16 +4,6 @@
   "Name": "IntegrationRuleBase",
   "Actions": [
     {
-      "NameGuid": "18cdb157-e89a-488b-8cea-bce6a63d0a13",
-      "Name": "DeleteEntity",
-      "GenerateHandler": true,
-      "IsAncestorMetadata": true,
-      "NeedConfirmation": true,
-      "Overridden": [
-        "GenerateHandler"
-      ]
-    },
-    {
       "NameGuid": "8b43c8f5-af63-478e-87a8-25c4ee4836f8",
       "Name": "ExecuteIntegration",
       "ActionArea": "Collection",

@@ -9,16 +9,6 @@ namespace DirRX.Integration.Client
 {
   partial class IntegrationRuleBaseActions
   {
-    public override void DeleteEntity(Sungero.Domain.Client.ExecuteActionArgs e)
-    {
-      base.DeleteEntity(e);
-    }
-
-    public override bool CanDeleteEntity(Sungero.Domain.Client.CanExecuteActionArgs e)
-    {
-      return false;
-    }
-
     public virtual void ExecuteIntegration(Sungero.Domain.Client.ExecuteActionArgs e)
     {
       Logger.DebugFormat("Test");

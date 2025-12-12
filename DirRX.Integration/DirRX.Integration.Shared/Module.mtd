@@ -1,0 +1,189 @@
+{
+  "$type": "Sungero.Metadata.ModuleMetadata, Sungero.Metadata",
+  "NameGuid": "ad98a7d7-b60c-46c7-815c-3a519a98ac9f",
+  "Name": "Integration",
+  "AsyncHandlers": [],
+  "ClientAssemblyName": "DirRX.Integration.Client",
+  "ClientBaseAssemblyName": "DirRX.Integration.ClientBase",
+  "ClientBaseNamespace": "DirRX.Integration.ClientBase",
+  "ClientNamespace": "DirRX.Integration.Client",
+  "Code": "Integr1",
+  "CompanyCode": "DirRX",
+  "Cover": {
+    "NameGuid": "64e458a8-1656-460e-9786-abb3473d2ff9",
+    "Actions": [],
+    "Background": null,
+    "Footer": {
+      "NameGuid": "26bb54e1-f194-4edb-aa7c-d16be1fde12b",
+      "BackgroundPosition": "Stretch"
+    },
+    "Groups": [],
+    "Header": {
+      "NameGuid": "f614dc6f-2848-4b58-816b-642eb7860d1c",
+      "BackgroundPosition": "Stretch"
+    },
+    "RemoteControls": [],
+    "Tabs": []
+  },
+  "Dependencies": [
+    {
+      "Id": "6bd6df45-f049-438d-86f7-205aeb64e74c",
+      "IsSolutionModule": true,
+      "MaxVersion": "",
+      "MinVersion": ""
+    },
+    {
+      "Id": "92491aa6-c4df-4f46-a807-ebdd337bda74",
+      "MaxVersion": "",
+      "MinVersion": "1.1.0.0"
+    }
+  ],
+  "ExplorerTreeOrder": [
+    {
+      "ItemId": "418813d9-51d6-40e1-8595-7faa63dac862"
+    },
+    {
+      "ItemId": "153056f7-e965-45d3-bd8e-b02ca12318ce",
+      "PreviousItemId": "418813d9-51d6-40e1-8595-7faa63dac862"
+    },
+    {
+      "ItemId": "6fb2cf7d-aa10-403c-8d27-47587aad03b8",
+      "PreviousItemId": "153056f7-e965-45d3-bd8e-b02ca12318ce"
+    },
+    {
+      "ItemId": "27d49388-c0df-4c19-b617-eeef1e4a3591",
+      "PreviousItemId": "6fb2cf7d-aa10-403c-8d27-47587aad03b8"
+    },
+    {
+      "ItemId": "f69d5f7a-aae2-4001-8ba4-8d7bfb732936",
+      "PreviousItemId": "27d49388-c0df-4c19-b617-eeef1e4a3591"
+    },
+    {
+      "ItemId": "10903bd8-212a-4026-a9e6-80ced666a8c5",
+      "PreviousItemId": "f69d5f7a-aae2-4001-8ba4-8d7bfb732936"
+    }
+  ],
+  "HandledEvents": [
+    "InitializingServer"
+  ],
+  "Importance": "Medium",
+  "InterfaceAssemblyName": "Sungero.Domain.Interfaces",
+  "InterfaceNamespace": "DirRX.Integration",
+  "IsolatedAssemblyName": "DirRX.Integration.Isolated",
+  "IsolatedNamespace": "DirRX.Integration.Isolated",
+  "IsVisible": false,
+  "Jobs": [
+    {
+      "NameGuid": "e855dbb4-7743-4b73-b4c5-617a36c6992e",
+      "Name": "ExecuteIntegration",
+      "GenerateHandler": true,
+      "MonthSchedule": "Monthly",
+      "StartAt": "1753-01-01T08:30:00"
+    }
+  ],
+  "Overridden": [
+    "IsVisible"
+  ],
+  "PublicFunctions": [
+    {
+      "Name": "CloseExternalLink",
+      "IsRemote": true,
+      "Parameters": [
+        {
+          "Name": "entityTypeGuid",
+          "ParameterType": "global::System.Guid",
+          "ParameterTypeFullName": "System.Guid"
+        },
+        {
+          "Name": "entityId",
+          "ParameterType": "global::System.Int32",
+          "ParameterTypeFullName": "System.Int32"
+        }
+      ],
+      "Placement": "Shared",
+      "ReturnType": "void",
+      "ReturnTypeFullName": "System.Void"
+    },
+    {
+      "Name": "EscapeXml",
+      "Parameters": [
+        {
+          "Name": "toXml",
+          "ParameterType": "global::System.String",
+          "ParameterTypeFullName": "System.String"
+        }
+      ],
+      "Placement": "Shared",
+      "ReturnType": "global::System.String",
+      "ReturnTypeFullName": "System.String"
+    },
+    {
+      "Name": "SendSyncResultByNotice",
+      "IsRemote": true,
+      "Parameters": [
+        {
+          "Name": "subject",
+          "ParameterType": "global::System.String",
+          "ParameterTypeFullName": "System.String"
+        },
+        {
+          "Name": "text",
+          "ParameterType": "global::System.String",
+          "ParameterTypeFullName": "System.String"
+        },
+        {
+          "Name": "recipient",
+          "ParameterType": "global::Sungero.CoreEntities.IRecipient",
+          "ParameterTypeFullName": "Sungero.CoreEntities.IRecipient, Sungero.Domain.Shared"
+        }
+      ],
+      "Placement": "Shared",
+      "ReturnType": "global::System.Boolean",
+      "ReturnTypeFullName": "System.Boolean"
+    },
+    {
+      "Name": "UnescapeXml",
+      "Parameters": [
+        {
+          "Name": "unXml",
+          "ParameterType": "global::System.String",
+          "ParameterTypeFullName": "System.String"
+        }
+      ],
+      "Placement": "Shared",
+      "ReturnType": "global::System.String",
+      "ReturnTypeFullName": "System.String"
+    }
+  ],
+  "PublicStructures": [],
+  "ResourceInterfaceAssemblyName": "Sungero.Domain.Interfaces",
+  "ResourceInterfaceNamespace": "DirRX.Integration",
+  "ResourcesKeys": [
+    "InformationTaskSubject",
+    "LogSubject",
+    "ExchangeSuccess",
+    "LogLine",
+    "LogErrors",
+    "LogWarnings",
+    "ExchangeErrors",
+    "ErrorCheckIntegrationSettings",
+    "LogInfos"
+  ],
+  "ServerAssemblyName": "DirRX.Integration.Server",
+  "ServerNamespace": "DirRX.Integration.Server",
+  "SharedAssemblyName": "DirRX.Integration.Shared",
+  "SharedNamespace": "DirRX.Integration.Shared",
+  "SpecialFolders": [],
+  "Version": "1.1.25241.0",
+  "Widgets": [],
+  "Versions": [
+    {
+      "Type": "ModuleMetadata",
+      "Number": 11
+    },
+    {
+      "Type": "DomainApi",
+      "Number": 3
+    }
+  ]
+}

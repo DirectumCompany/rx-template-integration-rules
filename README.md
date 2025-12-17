@@ -34,8 +34,8 @@
 ### Поддержка нового типа коннектора
 В качестве примера рассмотрим тип коннектора, который имитирует обмен данными с внешней системой без подключения к ней. Например, это можно использовать при отладке кода.
 1. Перекройте справочник IntegrationSetting.
-2. Типы коннекторов задаются в справочнике IntegrationSetting в свойстве ConnectorType. Добавьте значение перечисления, которое соответствует новому типу коннектора, например NewConnector:
-3. Переопределите серверную функцию ExecuteConnector() и добавьте обработку нового типа коннектора подключения:
+2. Типы коннекторов задаются в справочнике IntegrationSetting в свойстве ConnectorType. Добавьте значение перечисления, которое соответствует новому типу коннектора, например NewConnector.
+3. Переопределите серверную функцию ExecuteConnector() в правиле интеграции и добавьте обработку нового типа коннектора подключения:
 ```
 /// <summary>
 /// Выполнить обращение к внешней системе.
@@ -44,18 +44,17 @@
 /// <param name="connectorType">Тип коннектора подключения.</param>
 /// <param name="logs">Структурированный лог.</param>
 /// <returns>Матрица с ответом от внешней системы.</returns>
-public override List<string[]> ExecuteConnector(DirRX.Integration.IIntegrationRuleBase rule, System.Collections.Generic.Dictionary<string, string> parameters, List<DirRX.Integration.Structures.Module.LogStruct> logs)
+public override List<System.Collections.Generic.Dictionary<string, string>> ExecuteConnector(DirRX.Integration.IIntegrationRuleBase rule, System.Collections.Generic.Dictionary<string, string> parameters, List<DirRX.Integration.Structures.Module.LogStruct> logs)
 {
-  var response = base.ExecuteConnector(rule, parameters, logs);
-  if (parameters.Any())
-  {
-    if (_obj.ConnectorType == DirRX.Dummy.IntegrationSetting.ConnectorType.DummyProvider)
-      response = this.ExecuteDummyProvider(rule, parameters, logs);
-  }
+  var response = new List<Dictionary<string, string>>();
+  if (_obj.ConnectorType == DirRX.Dummy.IntegrationSetting.ConnectorType.DummyProvider)
+    response = this.ExecuteDummyConnector(rule, parameters, logs);
+  else
+    response = base.ExecuteConnector(rule, parameters, logs);
   return response;
 }
 ```
-4. Создайте функции, которые имитируют запросы к внешней системе и обрабатывают полученные значения. Тестовые данные в явном виде прописаны в функциях GetTestDataDepartments(), GetTestDataEmployees(), GetTestDataJobTitles(). В функции ExecuteDummyProvider() заполняется матрица ответа от внешней системы данными из перечисленных функций.
+4. Создайте функции для имитации обращения к внешней системе ExecuteDummyConnector (по аналогии ExecuteDefaultConnector), формирования запроса SendGetDepartmentsRequest (по аналогии SendDefaultRequest) и разбора ответа ParseDepartmentsResponse (по аналогии ParseDefaultResponse).
 ```
 /// <summary>
 /// Имитация работы с внешней системой.
@@ -64,21 +63,54 @@ public override List<string[]> ExecuteConnector(DirRX.Integration.IIntegrationRu
 /// <param name="parameters">Словарь параметров.</param>
 /// <param name="logs">Структурированный лог.</param>
 /// <returns>Матрица с ответом от внешней системы.</returns>
-public virtual List<string[]> ExecuteDummyProvider(DirRX.Integration.IIntegrationRuleBase rule, System.Collections.Generic.Dictionary<string, string> parameters, List<DirRX.Integration.Structures.Module.LogStruct> logs)
+public virtual List<System.Collections.Generic.Dictionary<string, string>> ExecuteDummyConnector(DirRX.Integration.IIntegrationRuleBase rule, System.Collections.Generic.Dictionary<string, string> parameters, List<DirRX.Integration.Structures.Module.LogStruct> logs)
 {
-  var response = new List<string[]>();
+  var result = new List<Dictionary<string, string>>();
+  var response = string.Empty;
   #region Заполнение данных в матрице ответа от внешней системы («заглушка»).
   if (parameters["method"] != null)
   {
     if (parameters["method"] == "GetDepartments")
-      response = GetTestDataDepartments();
+    { 
+      response = SendGetDepartmentsRequest();
+      if (!string.IsNullOrEmpty(response))
+        result = ParseDepartmentsResponse(response);
+    }
     else if (parameters["method"] == "GetEmployees")
-      response = GetTestDataEmployees();
+    {
+      response = SendGetEmployeesRequest();
+      if (!string.IsNullOrEmpty(response))
+        result = ParseEmployeesResponse(response);
+    }
     else if (parameters["method"] == "GetJobTitles")
-      response = GetTestDataJobTitles();
+    {
+      response = SendGetJobTitlesRequest();
+      if (!string.IsNullOrEmpty(response))
+        result = ParseJobTitlesResponse(response);
+    }
   }
   #endregion
-  return response;
+  return result;
+}
+
+/// <summary>
+/// Выполняет отправку запроса подразделений и возвращает ответ.
+/// </summary>
+public static string SendGetDepartmentsRequest()
+{
+  // http запрос к веб-сервису, sql запрос к БД, загрузка из файла.
+}
+    
+/// <summary>
+/// Выполнить обработку строки с ответом и преобразует в структурированный формат.
+/// </summary>
+/// <param name="response">Строка, содержащая ответ.</param>
+/// <returns>Ответ в виде списка массивов строк.</returns>
+public virtual List<System.Collections.Generic.Dictionary<string, string>> ParseDepartmentsResponse(string response)
+{
+  var result = new List<Dictionary<string, string>>();
+  // Разбор ответа.  
+  return result;
 }
 ```
 5. Опубликуйте решение и проверьте внесенные изменения.
@@ -88,13 +120,10 @@ public virtual List<string[]> ExecuteDummyProvider(DirRX.Integration.IIntegratio
 Правило интеграции представляет собой тип справочника с набором прикладных функций. Правило отправляет запрос из одной системы в другую и обрабатывает полученный ответ.
 В шаблоне предполагается, что внешняя система возвращает ответ в виде двумерного массива (матрицы), в котором колонки соответствуют параметрам, а строки – значениям параметров.
 В среде разработки Directum RX после установки решения IntegrationRulesSolution появляется модуль Integration с набором правил. Схема наследования правил: 
+
 <img width="637" height="254" alt="image" src="https://github.com/user-attachments/assets/0a7de1af-ff0e-411c-ad59-24b0ceccc2ba" />
-* IntegrationRuleBase – базовое правило интеграции;
-* ImportRuleBase – базовое правило импорта данных из внешней системы в Directum RX;
-* ImportRuleDepartment – импорт подразделений в Directum RX;
-* ImportRuleJobTitle – импорт должностей в Directum RX;
-* ImportRuleEmployee – импорт сотрудников в Directum RX.
-Если нужно реализовать экспорт данных из внешней системы в Directum RX, создайте правило экспорта. При этом в качестве базового правила используйте IntegrationRuleBase.
+
+Если нужно реализовать запросы к внешней системе из Directum RX, создайте правило интеграции. При этом в качестве базового правила используйте IntegrationRuleBase.
 Чтобы реализовать импорт новой сущности в Directum RX, создайте правило, в качестве базового правила используйте ImportRuleBase.
 Если требуется изменить правило импорта подразделений, должностей или сотрудников, то перекройте нужное правило, например ImportRuleDepartment, и переопределите его функции.
 
@@ -105,7 +134,7 @@ public virtual List<string[]> ExecuteDummyProvider(DirRX.Integration.IIntegratio
    * SaveData() – сохранение полученных данных в Directum RX;
    * ParseResponseItem() – обработка строки матрицы с ответом от внешней системы.
 3. Создайте серверную функцию, например ImportEntities(), которая импортирует данные в сущность Directum RX. Создайте структуру, которая содержит набор полей сущности. Созданная функция импорта будет вызываться из функции SaveData().
-4. Переопределите функцию инициализации, чтобы при ее выполнении создавались свои правила помимо базовых.
+4. Переопределите функцию инициализации, чтобы при ее выполнении выдавались права доступа на новые правила.
 
 #### Пример создания правила для импорта контрагентов
 1. Создайте правило для импорта контрагентов ImportRuleCounterparty. В качестве базового правила укажите ImportRuleBase.
@@ -176,7 +205,7 @@ public virtual void ImportEntities(List<DirRX.Solution.Structures.ImportRuleCoun
   }
 }
 ```
-6. Переопределите функцию инициализации модуля Integration. При инициализации необходимо создать правила по умолчанию и выдать на них права всем пользователям.
+6. Переопределите функцию инициализации модуля Integration. При инициализации необходимо выдать права на новый справочник правил интеграции.
 ```
 /// <summary>
 /// Выдача прав на справочники, соответствующие правилам.
@@ -187,25 +216,8 @@ public override void GrantRightsOnDatabooks()
   var allUsers = Roles.AllUsers;
   if (allUsers != null)
   {
-    DirRX.Solution.ImportRuleCounterparties.AccessRights.Grant(allUsers,DefaultAccessRightsTypes.Read);
+    DirRX.Solution.ImportRuleCounterparties.AccessRights.Grant(allUsers, DefaultAccessRightsTypes.Read);
     DirRX.Solution.ImportRuleCounterparties.AccessRights.Save();
-  }
-}
-
-/// <summary>
-/// Создание правил (записей справочников) по умолчанию.
-/// </summary>
-public override void CreateDefaultDatabooksItems()
-{
-  base.CreateDefaultDatabooksItems();
-  var importRuleCounterpartyItem =
-  DirRX.Solution.ImportRuleCounterparties.GetAll().FirstOrDefault();
-  if (importRuleCounterpartyItem == null)
-  {
-    importRuleCounterpartyItem = DirRX.Solution.ImportRuleCounterparties.Create();
-    importRuleCounterpartyItem.Name = DirRX.Solution.ImportRuleCounterparties.Info.LocalizedName;
-    importRuleCounterpartyItem.Note = DirRX.Solution.ImportRuleCounterparties.Resources.RuleNote;
-    importRuleCounterpartyItem.Save();
   }
 }
 ```
@@ -219,69 +231,6 @@ public override void CreateDefaultDatabooksItems()
    * ParseResponseItem() – обработка строки матрицы с ответом от внешней системы;
    * ImportEntities() – импорт сущности.
 4. Переопределите соответствующую функцию импорта данных в сущность Directum RX. Если импорт будет выполняться в новую сущность, создайте новую функцию импорта.
-
-#### Пример обработки нового свойства при импорте подразделений 
-1. Создайте структуру, например DepartmentCustom, для хранения получаемых данных.
-```
-/// <summary>
-/// Структура для работы с подразделениями.
-/// </summary
-partial class CustomDepartment
-{
-  public string Name {get; set;}
-  public string Id {get; set;}
-  public string BusinessUnitCode {get; set;}
-  public string HeadOfficeId {get; set;}
-  public string ManagerId {get; set;}
-  public Sungero.Core.Enumeration Status {get; set;}
-  public string NewCustomParameter {get; set;}
-}
-```
-2. Переопределите серверную функцию SaveData():
-```
-/// <summary>
-/// Сохранение полученных данных в Directum RX.
-/// </summary>
-/// <param name="response">Матрица с ответом от внешней системы.</param>
-/// <param name="logs">Структурированный лог.</param>
-public override void SaveData(List<string[]> response, List<DirRX.Integration.Structures.Module.LogStruct> logs)
-{
-  var departments = new List<DirRX.Integration.Structures.ImportRuleDepartment.DepartmentCustom>();
-  foreach (var responseItem in response)
-    entities.Add(ParseResponseItemCustom(responseItem));
-  if (departments.Any())
-  {
-    ImportDepartmentsCustom(departments, logs);
-  }
-}
-```
-3. Создайте серверную функцию ParseResponseItemCustom(), которая обрабатывает строки матрицы с ответом от внешней системы:
-```
-/// <summary>
-/// Обработка строки матрицы с ответом от внешней системы.
-/// </summary>
-/// <param name="responseItem">Строка матрицы с ответом от внешней системы.</param>
-/// <returns>Свойства сущности в структурированном виде.</returns>
-public virtual DirRX.Integration.Structures.ImportRuleDepartment.DepartmentCustom ParseResponseItemCustom(string[] responseItem)
-{
-  // Обработка строки матрицы.
-  ...
-}
-```
-4. Создайте серверную функцию ImportDepartmentsCustom(), которая импортирует подразделения в Directum RX:
-```
-/// <summary>
-/// Импорт новой сущности в Directum RX.
-/// </summary>
-/// <param name="items">Структурированный набор данных.</param>
-/// <returns>Список структурированных логов.</returns>
-[Remote]
-public virtual void ImportDepartmentsCustom(List<DirRX.Integration.Structures.ImportRuleDepartment.DepartmentCustom> items, List<DirRX.Integration.Structures.Module.LogStruct> logs)
-{
-  // Импорт подразделения.
-  ...
-}
-```
 
 ## Порядок установки
 Для работы требуется установленный Directum RX версии 4.12 и выше. 
@@ -303,29 +252,37 @@ public virtual void ImportDepartmentsCustom(List<DirRX.Integration.Structures.Im
 **A. Fork репозитория**
 1. Сделать fork репозитория rx-template-integration-rules для своей учетной записи.
 2. Склонировать созданный в п. 1 репозиторий в папку.
-3. Указать в _ConfigSettings.xml DDS:
+3. Указать в config.yml в разделе DevelopmentStudio:
 ```xml
-<block name="REPOSITORIES">
-  <repository folderName="Base" solutionType="Base" url="" />
-  <repository folderName="<Папка из п.2>" solutionType="Work"
-     url="<Адрес репозитория gitHub>" />
-</block>
+   GIT_ROOT_DIRECTORY: '<Папка из п.2>'
+   REPOSITORIES:
+      repository:
+      -   '@folderName': 'work'
+          '@solutionType': 'Work'
+          '@url': https://github.com/DirectumCompany/rx-template-integration-rules'
+      -   '@folderName': 'base'
+          '@solutionType': 'Base'
+          '@url': ''
 ```
 
 **B. Подключение на базовый слой.**
 Вариант не рекомендуется, так как при выходе версии шаблона разработки не гарантируется обратная совместимость.
 
 1. Склонировать репозиторий rx-template-integration-rules в папку.
-2. Указать в _ConfigSettings.xml DDS:
+2. Указать в config.yml в разделе DevelopmentStudio:
 ```xml
-<block name="REPOSITORIES">
-  <repository folderName="Base" solutionType="Base" url="" />
-  <repository folderName="<Папка из п.1>" solutionType="Base"
-     url="<Адрес репозитория gitHub>" />
-  <repository folderName="<Папка для рабочего слоя>" solutionType="Work"
-     url="<Адрес репозитория для рабочего слоя>" />
-</block>
-
+   GIT_ROOT_DIRECTORY: '<Папка из п.1>'
+   REPOSITORIES:
+      repository:
+      -   '@folderName': 'work'
+          '@solutionType': 'Work'
+          '@url': '<Адрес репозитория для рабочего слоя>'
+-   '@folderName': 'base'
+          '@solutionType': 'Base'
+          '@url': ''
+      -   '@folderName': 'base'
+          '@solutionType': 'Base'
+          '@url': 'https://github.com/DirectumCompany/rx-template-integration-rules'
 ```
 
 **C. Копирование репозитория в систему контроля версий.**
@@ -335,4 +292,5 @@ public virtual void ImportDepartmentsCustom(List<DirRX.Integration.Structures.Im
 3. Перейти в папку из п. 2.
 4. Импортировать клонированный репозиторий в систему контроля версий командой:
 `git push –mirror <Адрес репозитория из п. 1>`
+
 

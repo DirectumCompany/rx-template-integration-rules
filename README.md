@@ -34,10 +34,16 @@
 * вызов интеграции из событий сущностей, блоков задач, действий и т.д.
 
 ### Поддержка нового типа коннектора
+Тип коннектора - это элемент перечисления, который указывается в справочнике настроек интеграции и используется для выбора подходящего обработчика правил интеграции.
+
 Правило интеграции представляет собой тип справочника с набором прикладных функций. Правило отправляет запрос из одной системы в другую и обрабатывает полученный ответ.
+
 В шаблоне предполагается, что внешняя система возвращает ответ в виде двумерного массива (матрицы), в котором колонки соответствуют параметрам, а строки – значениям параметров.
+
 В среде разработки Directum RX после установки решения IntegrationRulesSolution появляется модуль Integration с набором правил.
-В качестве примера рассмотрим тип коннектора, который имитирует обмен данными с внешней системой без подключения к ней. Например, это можно использовать при отладке кода, если есть примеры различных вариантов ответов от внешней системы.
+
+В качестве примера рассмотрим тип коннектора, который имитирует обмен данными с внешней системой без подключения к ней.
+
 1. Перекройте справочник Настройки интеграции (IntegrationSetting).
 2. Типы коннекторов задаются в справочнике Настройки интеграции (IntegrationSetting) в свойстве ConnectorType. Добавьте значение перечисления, которое соответствует новому типу коннектора, например DummyConnector.
 3. Переопределите серверную функцию ExecuteConnector() в правиле интеграции и добавьте обработку нового типа коннектора:
@@ -52,7 +58,7 @@
 public override List<System.Collections.Generic.Dictionary<string, string>> ExecuteConnector(DirRX.Integration.IIntegrationRuleBase rule, System.Collections.Generic.Dictionary<string, string> parameters, List<DirRX.Integration.Structures.Module.LogStruct> logs)
 {
   var response = new List<Dictionary<string, string>>();
-  if (_obj.ConnectorType == DirRX.Dummy.IntegrationSetting.ConnectorType.DummyProvider)
+  if (_obj.ConnectorType == DirRX.Dummy.IntegrationSetting.ConnectorType.DummyConnector)
     response = this.ExecuteDummyConnector(rule, parameters, logs);
   else
     response = base.ExecuteConnector(rule, parameters, logs);

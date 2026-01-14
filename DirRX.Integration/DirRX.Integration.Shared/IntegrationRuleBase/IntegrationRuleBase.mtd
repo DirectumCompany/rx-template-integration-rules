@@ -176,6 +176,7 @@
   "IconResourcesKeys": [],
   "IsAbstract": true,
   "IsVisible": false,
+  "ListViewUuid": "3828f4a3-b2f4-421d-8c50-ea3c297ddd45",
   "OperationsClass": "",
   "Overridden": [
     "IsVisible",

@@ -8,7 +8,7 @@
         <property name="View" isnull="true" iskey="true">
           <property name="LinesPerRowMode">None</property>
           <property name="ColumnChooserState" isnull="true" iskey="true">
-            <property name="Location">806,-2</property>
+            <property name="Location">1012,-2</property>
             <property name="Size">220,250</property>
           </property>
           <property name="AllowMoveColumnToDropArea">false</property>
@@ -21,39 +21,30 @@
           <property name="AllowGrouping">false</property>
         </property>
         <property name="TotalSummary" iskey="true" value="0" />
-        <property name="SortInfo" iskey="true" value="1">
-          <property name="Item1" isnull="true" iskey="true">
-            <property name="FieldName">ExecutionOrder</property>
-            <property name="SortOrder">Ascending</property>
-          </property>
-        </property>
+        <property name="SortInfo" iskey="true" value="0" />
         <property name="GroupSummary" iskey="true" value="0" />
         <property name="GroupCount">0</property>
         <property name="Columns" iskey="true" value="3">
           <property name="Item1" isnull="true" iskey="true">
-            <property name="ExtendedVisibleIndex">1</property>
             <property name="Visible">true</property>
             <property name="Name">IntegrationSetting_Rules_Rule</property>
             <property name="FieldName">Rule</property>
-            <property name="VisibleIndex">1</property>
-            <property name="Width">537</property>
-            <property name="ActualWidth">43*</property>
+            <property name="VisibleIndex">0</property>
+            <property name="ActualWidth">7*</property>
           </property>
           <property name="Item2" isnull="true" iskey="true">
-            <property name="ExtendedVisibleIndex">0</property>
             <property name="Visible">true</property>
             <property name="Name">IntegrationSetting_Rules_ExecutionOrder</property>
             <property name="FieldName">ExecutionOrder</property>
-            <property name="VisibleIndex">0</property>
-            <property name="ActualWidth">NaN</property>
+            <property name="VisibleIndex">1</property>
+            <property name="ActualWidth">13*</property>
           </property>
           <property name="Item3" isnull="true" iskey="true">
-            <property name="ExtendedVisibleIndex">2</property>
             <property name="Visible">true</property>
             <property name="Name">IntegrationSetting_Rules_Note</property>
             <property name="FieldName">Note</property>
             <property name="VisibleIndex">2</property>
-            <property name="ActualWidth">NaN</property>
+            <property name="ActualWidth">9*</property>
           </property>
         </property>
         <property name="GroupSummarySortInfo" iskey="true" value="0" />

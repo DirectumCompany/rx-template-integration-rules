@@ -192,6 +192,7 @@
   "HideFromNavigationEditorCreationArea": true,
   "IconResourcesKeys": [],
   "IsVisible": false,
+  "ListViewUuid": "20b708c9-5c7f-4dc7-a71d-b6b6da292321",
   "OperationsClass": "",
   "Overridden": [
     "IsVisible",

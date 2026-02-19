@@ -118,7 +118,7 @@ namespace DirRX.Integration.Server
         if (!string.IsNullOrEmpty(item.BusinessUnitCode))
         {
           var businessUnit = Sungero.Company.BusinessUnits.GetAll().Where(x => x.Code == item.BusinessUnitCode).FirstOrDefault();
-          if (businessUnit != null && department.BusinessUnit != businessUnit)
+          if (businessUnit != null && !Equals(department.BusinessUnit, businessUnit))
             department.BusinessUnit = businessUnit;
         }
         
@@ -126,7 +126,7 @@ namespace DirRX.Integration.Server
                                                                                       l.ExternalEntityId == item.ManagerExternalId && l.IsDeleted == false).FirstOrDefault();
         var employeeId = employeeExternalLink != null ? employeeExternalLink.EntityId : 0;
         var manager = Sungero.Company.Employees.GetAll().Where(x => x.Id == employeeId).FirstOrDefault();
-        if (manager != null && department.Manager != manager)
+        if (manager != null && !Equals(department.Manager, manager))
           department.Manager = manager;
         
         if (department.Status != item.Status)

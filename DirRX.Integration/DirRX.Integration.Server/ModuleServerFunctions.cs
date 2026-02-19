@@ -55,9 +55,11 @@ namespace DirRX.Integration.Server
     /// <param name="logs">Список логируемых событий.</param>
     public virtual void SendResults(Sungero.CoreEntities.IRecipient recipient, List<DirRX.Integration.Structures.Module.LogStruct> logs)
     {
+      if (recipient == null)
+        return;
+      
       var result = new StringBuilder();
       
-      // TODO добавить в текстовку какой блок ошибок к чему относится например "Логи фонового процесса / отправки запроса / обработки ответа".
       result.AppendLine(CreateReport(DirRX.Integration.Constants.Module.Logging.MessageLevel.JobLevel,
                                      logs));
       

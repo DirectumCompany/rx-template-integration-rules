@@ -17,6 +17,113 @@ namespace DirRX.Integration.Server
     #region Общие функции.
     
     /// <summary>
+    /// Создать правило по умолчанию.
+    /// </summary>
+    /// <param name="ruleId">"Внешний" ИД правила.</param>
+    /// <param name="typeGuid">GUID типа справочника.</param>
+    /// <param name="name">Название правила.</param>
+    /// <param name="note">Описание правила.</param>
+    /// <param name="defaultParams">Параметры по умолчанию.</param>
+    public static void CreateDefaultRule(string ruleId, Guid typeGuid, string name, string note, List<Structures.IntegrationRuleBase.DefaultParams> defaultParams)
+    {
+      var externalLink = Sungero.Domain.ModuleFunctions
+        .GetAllExternalLinks(l => l.EntityTypeGuid == typeGuid && l.ExternalEntityId == ruleId)
+        .FirstOrDefault();
+      
+      if (externalLink != null)
+        return;
+      
+      Logger.Debug($"Create rule \"{name}\"");
+      
+      var rule = CreateRuleByTypeGuid(typeGuid);
+      rule.Name = name;
+      rule.Note = note;
+      foreach(var item in defaultParams)
+      {
+        var row = rule.Parameters.AddNew();
+        row.Parameter = item.Parameter;
+        row.Value = item.Value;
+        row.Note = item.Note;
+      }
+      rule.Save();
+      
+      CreateExternalLink(rule, typeGuid, ruleId);
+    }
+    
+    /// <summary>
+    /// Создать запись справочника соответствующего GUID типа.
+    /// </summary>
+    /// <param name="typeGuid">Тип справочника.</param>
+    /// <returns>Новая запись.</returns>
+    public static IIntegrationRuleBase CreateRuleByTypeGuid(Guid typeGuid)
+    {
+      if (typeGuid == DirRX.Integration.Server.ImportRuleDepartment.ClassTypeGuid)
+        return ImportRuleDepartments.Create();
+      if (typeGuid == DirRX.Integration.Server.ImportRuleEmployee.ClassTypeGuid)
+        return ImportRuleEmployees.Create();
+      if (typeGuid == DirRX.Integration.Server.ImportRuleJobTitle.ClassTypeGuid)
+        return ImportRuleJobTitles.Create();
+      
+      return null;
+    }
+    
+    /// <summary>
+    /// Получить значение параметра правила по имени.
+    /// </summary>
+    /// <param name="parameter">Имя параметра.</param>
+    /// <returns>Значение параметра.</returns>
+    public virtual string GetParameterByName(string parameter)
+    {
+      if (string.IsNullOrWhiteSpace(parameter))
+        return string.Empty;
+      return _obj.Parameters.ToList().Where(p => !string.IsNullOrWhiteSpace(p.Parameter) && string.Equals(p.Parameter, parameter, StringComparison.OrdinalIgnoreCase)).FirstOrDefault()?.Value;
+    }
+    
+    /// <summary>
+    /// Получить логин.
+    /// </summary>
+    /// <param name="integrationSettings">Настройки интеграции.</param>
+    /// <returns>Логин.</returns>
+    /// <remarks>В первую очередь логин берется из правила, если не заполнен в правиле, то из настроек.</remarks>
+    public virtual string GetLogin(DirRX.Integration.IIntegrationSetting integrationSettings)
+    {
+      return string.IsNullOrWhiteSpace(_obj.Login) ? integrationSettings.Login : _obj.Login;
+    }
+    
+    /// <summary>
+    /// Получить пароль.
+    /// </summary>
+    /// <param name="integrationSettings">Настройки интеграции.</param>
+    /// <returns>Пароль.</returns>
+    /// <remarks>В первую очередь пароль берется из правила, если не заполнен в правиле, то из настроек.</remarks>
+    public virtual string GetPassword(DirRX.Integration.IIntegrationSetting integrationSettings)
+    {
+      return GetDecryptedData(string.IsNullOrWhiteSpace(_obj.Password) ? integrationSettings.Password : _obj.Password);
+    }
+    
+    /// <summary>
+    /// Получить таймаут.
+    /// </summary>
+    /// <param name="integrationSettings">Настройки интеграции.</param>
+    /// <returns>Таймаут.</returns>
+    /// <remarks>В первую очередь таймаут берется из правила, если не заполнен в правиле, то из настроек.</remarks>
+    public virtual int? GetTimeout(DirRX.Integration.IIntegrationSetting integrationSettings)
+    {
+      return _obj.Timeout.HasValue ? _obj.Timeout : integrationSettings.Timeout;
+    }
+    
+    /// <summary>
+    /// Получить адрес подключения.
+    /// </summary>
+    /// <param name="integrationSettings">Настройки интеграции.</param>
+    /// <returns>Адрес подключения.</returns>
+    /// <remarks>В первую очередь адрес подключения берется из правила, если не заполнен в правиле, то из настроек.</remarks>
+    public virtual string GetURI(DirRX.Integration.IIntegrationSetting integrationSettings)
+    {
+      return !string.IsNullOrWhiteSpace(_obj.Uri) ? _obj.Uri : integrationSettings.Uri;
+    }
+    
+    /// <summary>
     /// Выполнить интеграцию.
     /// </summary>
     /// <param name="integrationSettings">Настройки интеграции.</param>
@@ -124,8 +231,11 @@ namespace DirRX.Integration.Server
       
       try
       {
-        response = SendDefaultRequest(_obj.Uri, integrationSettings.Login,
-                                      GetDecryptedData(integrationSettings.Password), _obj.ActionName, parameters);
+        response = SendDefaultRequest(this.GetURI(integrationSettings),
+                                      this.GetLogin(integrationSettings),
+                                      this.GetPassword(integrationSettings),
+                                      _obj.ActionName,
+                                      parameters);
       }
       catch (Exception ex)
       {

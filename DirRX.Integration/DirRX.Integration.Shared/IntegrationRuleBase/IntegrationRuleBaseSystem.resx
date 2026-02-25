@@ -109,4 +109,34 @@
   <data name="Property_Port" xml:space="preserve">
     <value>External System Server Port</value>
   </data>
+  <data name="Property_Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Property_Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Property_Timeout" xml:space="preserve">
+    <value>Connection timeout</value>
+  </data>
+  <data name="Action_SetPassword" xml:space="preserve">
+    <value>Set Password</value>
+  </data>
+  <data name="Action_SetPasswordDescription" xml:space="preserve">
+    <value>Set Password</value>
+  </data>
+  <data name="Action_SetPasswordHint" xml:space="preserve">
+    <value>Set Password</value>
+  </data>
+  <data name="Action_SetPasswordConfirmationMessage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Action_SetPasswordConfirmationDescription" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Ribbon_Integration_883c5124d37641bea1ff55d1f5054eee" xml:space="preserve">
+    <value>Integration</value>
+  </data>
+  <data name="ControlGroup_d9dc6e553edd4091b83909967e2d1bde" xml:space="preserve">
+    <value>ConnectionSettings</value>
+  </data>
 </root>

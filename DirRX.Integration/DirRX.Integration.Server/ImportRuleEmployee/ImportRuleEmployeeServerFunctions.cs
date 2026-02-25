@@ -75,7 +75,7 @@ namespace DirRX.Integration.Server
       if (!string.Equals(person.MiddleName, employee.MiddleName))
         person.MiddleName = employee.MiddleName;
       
-      if (person.Email != employee.Email)
+      if (!string.Equals(person.Email, employee.Email))
         person.Email = employee.Email;
       
       if (person.Status != employee.Status)
@@ -176,14 +176,14 @@ namespace DirRX.Integration.Server
                                                                                         l.ExternalEntityId == item.DepartmentExternalId && l.IsDeleted == false).FirstOrDefault();
         var departmentId = departmentExternalLink != null ? departmentExternalLink.EntityId : 0;
         var department = Sungero.Company.Departments.GetAll().Where(d => d.Id == departmentId).FirstOrDefault();
-        if (department != null && employee.Department != department)
+        if (department != null && !Equals(employee.Department, department))
           employee.Department = department;
         
         var jobTitleExternalLink = Sungero.Domain.ModuleFunctions.GetAllExternalLinks(l => l.EntityTypeGuid == DirRX.Integration.Constants.ImportRuleJobTitle.JobTitleDatabookGuid &&
                                                                                       l.ExternalEntityId == item.JobTitleExternalId && l.IsDeleted == false).FirstOrDefault();
         var jobTitleId = jobTitleExternalLink != null ? jobTitleExternalLink.EntityId : 0;
         var jobTitle = Sungero.Company.JobTitles.GetAll().Where(j => j.Id == jobTitleId).FirstOrDefault();
-        if (jobTitle != null && employee.JobTitle != jobTitle)
+        if (jobTitle != null && !Equals(employee.JobTitle, jobTitle))
           employee.JobTitle = jobTitle;
         
         if (employee.Status != item.Status)

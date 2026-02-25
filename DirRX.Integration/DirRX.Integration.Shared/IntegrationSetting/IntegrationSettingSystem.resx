@@ -118,7 +118,10 @@
   <data name="CollectionDisplayName" xml:space="preserve">
     <value>Integration Settings</value>
   </data>
-  <data name="Enum_ConnectorType_NewConnector" xml:space="preserve">
-    <value>New Connector</value>
+  <data name="Property_Uri" xml:space="preserve">
+    <value>External System Server Uri</value>
+  </data>
+  <data name="Property_ExecutionOrder" xml:space="preserve">
+    <value>Execution order</value>
   </data>
 </root>

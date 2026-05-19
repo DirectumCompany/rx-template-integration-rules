@@ -40,16 +40,16 @@
   "SharedAssemblyName": "DirRX.IntegrationRulesSolution.Shared",
   "SharedNamespace": "DirRX.IntegrationRulesSolution.Shared",
   "SpecialFolders": [],
-  "Version": "1.1.25300.0",
+  "Version": "1.1.26100.0",
   "Widgets": [],
   "Versions": [
     {
       "Type": "SolutionMetadata",
-      "Number": 11
+      "Number": 12
     },
     {
       "Type": "ModuleMetadata",
-      "Number": 11
+      "Number": 12
     },
     {
       "Type": "DomainApi",

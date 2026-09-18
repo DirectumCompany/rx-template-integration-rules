@@ -1,0 +1,44 @@
+{
+  "$type": "Sungero.DataExport.ExportingObject, Sungero.DataExport",
+  "FolderType": null,
+  "EntityType": "6fb2cf7d-aa10-403c-8d27-47587aad03b8",
+  "ContextType": "List",
+  "ListViewType": "Table",
+  "EmbeddedViewType": "None",
+  "List": {
+    "$type": "Sungero.NoCode.Settings.Interfaces.Models.List.ListSettings, Sungero.NoCode.Settings.Interfaces",
+    "Grid": {
+      "$type": "Sungero.NoCode.Settings.Interfaces.Models.List.GridSettings, Sungero.NoCode.Settings.Interfaces",
+      "BaseEntityTypeGuid": "6fb2cf7d-aa10-403c-8d27-47587aad03b8",
+      "Columns": {
+        "$type": "System.Collections.Generic.List`1[[Sungero.NoCode.Settings.Interfaces.Models.List.ColumnSettings, Sungero.NoCode.Settings.Interfaces]], System.Private.CoreLib",
+        "$values": []
+      },
+      "TwoLinesMode": null,
+      "ShowGroupPanel": null,
+      "AutoWidth": null
+    },
+    "Filters": null,
+    "Ribbon": {
+      "$type": "Sungero.NoCode.Settings.Interfaces.Models.Entity.Ribbon.RibbonSettings, Sungero.NoCode.Settings.Interfaces",
+      "Groups": {
+        "$type": "System.Collections.Generic.List`1[[Sungero.NoCode.Settings.Interfaces.Models.Entity.Ribbon.RibbonSettingsGroup, Sungero.NoCode.Settings.Interfaces]], System.Private.CoreLib",
+        "$values": []
+      },
+      "Buttons": {
+        "$type": "System.Collections.Generic.List`1[[Sungero.NoCode.Settings.Interfaces.Models.Entity.Ribbon.RibbonSettingsButton, Sungero.NoCode.Settings.Interfaces]], System.Private.CoreLib",
+        "$values": []
+      }
+    },
+    "LastUpdate": "0001-01-01T00:00:00"
+  },
+  "Criteria": null,
+  "Priority": 0,
+  "SettingsVersion": 1,
+  "ClientContext": "DefaultContext",
+  "IsDevSettings": true,
+  "Uuid": "5c402207-54c7-439a-9187-c5b21d27b62a",
+  "ModuleNameGuid": "ad98a7d7-b60c-46c7-815c-3a519a98ac9f",
+  "StoreAsDefaultSetting": true,
+  "Status": "Active"
+}

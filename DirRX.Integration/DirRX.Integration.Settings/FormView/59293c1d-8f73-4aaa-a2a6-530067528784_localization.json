@@ -1,0 +1,27 @@
+{
+  "ConnectionSettings_Caption_d9dc6e553edd4091b83909967e2d1bde": {
+    "en-US": "ConnectionSettings",
+    "ru-RU": "Настройки подключения"
+  },
+  "Description": {},
+  "Integration_Caption_883c5124d37641bea1ff55d1f5054eee": {
+    "en-US": "Integration",
+    "ru-RU": "Интеграция с внешней системой"
+  },
+  "Main_Caption_0cf2564362934e88b800f40a2dd9ada5": {
+    "en-US": "Main",
+    "ru-RU": "Основные настройки"
+  },
+  "MainPage_Title_358ba45f92a748e8b45a4b37451aa35c": {
+    "en-US": "Properties",
+    "ru-RU": "Свойства"
+  },
+  "Name": {
+    "en-US": "Integration Rule Base",
+    "ru-RU": "Базовое правило интеграции"
+  },
+  "RequesParameters_Caption_dff3bfda95fd419ea9b72f68f45d7479": {
+    "en-US": "Reques parameters",
+    "ru-RU": "Параметры запроса"
+  }
+}

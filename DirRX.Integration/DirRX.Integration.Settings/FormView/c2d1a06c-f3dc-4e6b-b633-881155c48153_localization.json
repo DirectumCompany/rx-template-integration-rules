@@ -1,0 +1,23 @@
+{
+  "ConnectionSettings_Caption_0445fcfef59b46b28ff4aefe9efe44cd": {
+    "en-US": "Connection Settings",
+    "ru-RU": "Настройки подключения"
+  },
+  "Description": {},
+  "Integration_Caption_fa4ca4e7bd9a42a783c9d15c254bbe21": {
+    "en-US": "Integration",
+    "ru-RU": "Интеграция с внешней системой"
+  },
+  "MainPage_Title_8ce91525b03c434c8b6b16c68c48ee78": {
+    "en-US": "Properties",
+    "ru-RU": "Свойства"
+  },
+  "Name": {
+    "en-US": "Integration Setting",
+    "ru-RU": "Настройка интеграции"
+  },
+  "Rules_Caption_e6da17f7213346958a240f1fc2b6d33b": {
+    "en-US": "Integration Rules",
+    "ru-RU": "Правила интеграции"
+  }
+}
